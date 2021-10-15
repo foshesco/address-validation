@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import {
+  Route,
+  Switch
+} from "react-router-dom";
+import Header from './ui/components/header/Header';
+import AddressValidation from "./ui/components/address-validation/AddressValidation";
+import Footer from "./ui/components/footer/Footer"
 
-function App() {
+export default function App() {
+  const storedDarkMode = localStorage.getItem("darkMode");
+  const [darkMode, setDarkMode] = useState(storedDarkMode);
+  const toggleDarkMode = () => setDarkMode(darkMode ? false : true);
+  useEffect(() => {
+    localStorage.setItem("darkMode", darkMode);
+  }, [darkMode]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="mainContainer" data-theme={darkMode ? "dark" : "light"}>
+      <Header toggleDarkMode={toggleDarkMode} darkMode={darkMode} />
+      <Switch>
+        <Route exact path="/" component={AddressValidation} />
+      </Switch>
+      <Footer />
     </div>
   );
 }
-
-export default App;
