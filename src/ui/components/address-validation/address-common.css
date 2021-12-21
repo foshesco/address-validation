@@ -12,11 +12,9 @@
 .addressFormContainer {
     padding: 20px;
     margin-bottom: 100px;
-    display: flex;
-    justify-content: center;
 }
 
-.addressForm-input {
+.addressFormContainer input {
   display: block;
   margin-bottom: 15px;
   width: 100%;

@@ -1,39 +1,114 @@
-// import { Link } from "react-router-dom";
-import './address-common.css'
-import { getAddressVerify } from '../../utils/helper';
+import React, { useState, useEffect } from "react";
+import { xml2json } from "../../utils/helper";
+import './address-common.css';
 
 const AddressValidation = () => {
-    getAddressVerify();
+    const parser = new DOMParser();
+
+    const initialCityState = { city: "", state: "" };
+    // eslint-disable-next-line
+    const [cityState, setCityState] = useState(initialCityState);
+    const [zipcode, setZipcode] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    // We check to see if the input is 5 characters long and there
+    // is something there
+    const isZipValid = zipcode.length === 5 && zipcode;
+
+    useEffect(() => {
+        const fetchCityState = async () => {
+            try {
+                // If zip is valid then...fetch something
+                if (isZipValid) {
+                    const response = await fetch(
+                        `/.netlify/functions/getCityState?&zipcode=${zipcode}`,
+                        {
+                            headers: { accept: "application/json" },
+                        }
+                    );
+                    const data = await response.text();
+                    const srcDOM = parser.parseFromString(data, "application/xml");
+                    console.log(xml2json(srcDOM));
+                    const res = xml2json(srcDOM);
+
+                    // Using optional chaining we check that all the DOM
+                    // items are there
+                    if (res?.CityStateLookupResponse?.ZipCode?.City) {
+                        // set loading to false because we have a result
+                        setLoading(false);
+                        // then spread the result to the setCityState hook
+                        setCityState({
+                            ...cityState,
+                            city: res.CityStateLookupResponse.ZipCode.City,
+                            state: res.CityStateLookupResponse.ZipCode.State,
+                        });
+
+                        // Error checking. User did not put in a valid zipcode
+                        // according to the API
+                    } else if (res?.CityStateLookupResponse?.ZipCode?.Error) {
+                        setLoading(false);
+                        // then spread the error to the setCityState hook
+                        setCityState({
+                            ...cityState,
+                            city: `Invalid Zip Code for ${zipcode}`,
+                            state: "Try Again",
+                        });
+                    }
+                }
+            } catch (e) {
+                console.log(e);
+            }
+        };
+        fetchCityState();
+    }, [zipcode]);
+
     return (
-        <section className="pageContainer">
-            <div className="homeContainer">
-                {/* <div>
-                        <img className="homeImg" src="https://golfweek.usatoday.com/wp-content/uploads/sites/87/2019/10/usatsi_12533119.jpg"></img>
-                    </div> */}
-                <div className="addressFormContainer borderTheme">
-                    <div className="addressForm">
-                        <input className="addressForm-input" autoComplete='none' placeholder='Address'
-                        />
-                        <input className="addressForm-input" placeholder='City' />
-                        <input className="addressForm-input" placeholder='State' />
-                        <div className="addressForm-input-zipContainer">
-                            <input className="addressForm-input-zip" placeholder='Zip Code' /> - <input className="addressForm-input-zipext" placeholder='Zip Code Ext.' />
-                        </div>
-                    </div>
-                </div>
-                {/* <div className="homeLinkContainer">
-                        <Link to='/rankings' className="homeLink">
-                            <b>World Golf Rankings</b>
-                            <img className="homeLinkImg" src='https://static.thenounproject.com/png/3922525-200.png' />
-                        </Link>
-                        <Link to='/leaderboard' className="homeLink">
-                            <b>PGA Tour Leaderboard</b>
-                            <img className="homeLinkImg" src='https://static.thenounproject.com/png/72549-200.png' />
-                        </Link>
-                    </div> */}
-            </div>
-        </section>
-    )
+        <div className="addressFormContainer">
+            <h1>City/State Lookup Tool</h1>
+            <form action="" className="form-data">
+                <label htmlFor="zip">Type Zip Code Here</label>
+                <input
+                    className="zip"
+                    value={zipcode || ""}
+                    placeholder="XXXXX"
+                    type="text"
+                    name="zip"
+                    id="zip"
+                    onChange={(event) => {
+                        const { value } = event.target;
+                        setZipcode(value.replace(/[^\d{5}]$/, "").substr(0, 5));
+                    }}
+                />
+                <label htmlFor="city">City</label>
+                <input
+                    className={`city`}
+                    value={cityState.city}
+                    type="text"
+                    name="city"
+                    disabled
+                    id="city"
+                />
+                <label htmlFor="state">State</label>
+                <input
+                    className={`state`}
+                    value={cityState.state}
+                    type="text"
+                    name="state"
+                    disabled
+                    id="state"
+                />
+            </form>
+            <pre>
+                <code>
+                    {JSON.stringify({
+                        zipcode: zipcode,
+                        city: cityState.city,
+                        state: cityState.state,
+                    })}
+                </code>
+            </pre>
+        </div>
+    );
 }
 
-export default AddressValidation
+export default AddressValidation;
