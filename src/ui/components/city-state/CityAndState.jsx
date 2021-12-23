@@ -8,8 +8,6 @@ const CityAndState = () => {
     const [zipcode, setZipcode] = useState("");
     const [loading, setLoading] = useState(false);
 
-    // We check to see if the input is 5 characters long and there
-    // is something there
     const isZipValid = zipcode.length === 5 && zipcode;
 
     useEffect(() => {
@@ -29,23 +27,16 @@ const CityAndState = () => {
                     console.log(xml2json(srcDOM));
                     const res = xml2json(srcDOM);
 
-                    // Using optional chaining we check that all the DOM
-                    // items are there
                     if (res?.CityStateLookupResponse?.ZipCode?.City) {
-                        // set loading to false because we have a result
                         setLoading(false);
-                        // then spread the result to the setCityState hook
                         setCityState({
                             ...cityState,
                             city: res.CityStateLookupResponse.ZipCode.City,
                             state: res.CityStateLookupResponse.ZipCode.State,
                         });
 
-                        // Error checking. User did not put in a valid zipcode
-                        // according to the API
                     } else if (res?.CityStateLookupResponse?.ZipCode?.Error) {
                         setLoading(false);
-                        // then spread the error to the setCityState hook
                         setCityState({
                             ...cityState,
                             city: `Invalid Zip Code for ${zipcode}`,
