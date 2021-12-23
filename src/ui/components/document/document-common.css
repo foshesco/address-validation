@@ -8,7 +8,7 @@
 @media (max-width: 800px) {
     .document-container {
         min-height: 700px;
-        margin: 50px;
+        margin: 5% 20%;
     }
     .document-links {
         display: flex;
@@ -16,14 +16,14 @@
         justify-content: space-around;
     }
     .document-links div {
-        padding-top: 60px
+        padding-top: 20px
     }
 }
 
 @media (min-width: 800px) {
     .document-container {
         min-height: 700px;
-        margin: 50px 150px;
+        margin: 5% 20%;
     }
     .document-links {
         display: flex;

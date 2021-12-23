@@ -1,7 +1,7 @@
 @media (max-width: 800px) {
     .home-container {
-        min-height: 650px;
-        margin: 50px 50px;
+        min-height: 700px;
+        margin: 5% 20%;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -11,7 +11,7 @@
 @media (min-width: 800px) {
     .home-container {
         min-height: 550px;
-        margin: 50px 300px;
+        margin: 5% 20%;
         display: flex;
         justify-content: center;
         align-items: center;
