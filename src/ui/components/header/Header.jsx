@@ -9,7 +9,7 @@ const Header = (props) => {
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
-            <NavLink className="navbar-brand" to="/">Eaglize</NavLink>
+            <NavLink className="navbar-brand" to="/"><img src="favicon-32x32.png" alt="Eaglize Icon" /><span className="eaglize-name">Eaglize</span></NavLink>
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">
                     <li className='nav-item'>

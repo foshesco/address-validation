@@ -9,7 +9,23 @@
 .navbar-brand {
     background-color: var(--bg-color) !important;
     color: var(--text-color) !important;
+    display: flex;
+    justify-content: center;
+    align-items: end;
 }
+
+@media (min-width: 800px) {
+  .eaglize-name {
+    padding-left: 5px;
+  }
+}
+
+@media (max-width: 800px) {
+  .eaglize-name {
+    display: none;
+  }
+}
+
 
 .nav-link {
     background-color: var(--bg-color) !important;
