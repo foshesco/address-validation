@@ -24,7 +24,6 @@ const CityAndState = () => {
                     );
                     const data = await response.text();
                     const srcDOM = parser.parseFromString(data, "application/xml");
-                    console.log(xml2json(srcDOM));
                     const res = xml2json(srcDOM);
 
                     if (res?.CityStateLookupResponse?.ZipCode?.City) {

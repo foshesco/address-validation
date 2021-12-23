@@ -1,6 +1,6 @@
 const fetch = require("node-fetch");
 
-const USER_ID = process.env.REACT_APP_USERID;
+const USER_ID = process.env.USER_ID;
 const BASE_URI =
     "http://production.shippingapis.com/ShippingAPITest.dll?API=CityStateLookup&XML=";
 const config = {
