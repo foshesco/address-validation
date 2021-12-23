@@ -1,0 +1,34 @@
+.document-copy {
+    margin-top: 50px;
+    font-size: 20px;
+}
+
+
+
+@media (max-width: 800px) {
+    .document-container {
+        min-height: 700px;
+        margin: 50px;
+    }
+    .document-links {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+    .document-links div {
+        padding-top: 60px
+    }
+}
+
+@media (min-width: 800px) {
+    .document-container {
+        min-height: 700px;
+        margin: 50px 150px;
+    }
+    .document-links {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+}
+
